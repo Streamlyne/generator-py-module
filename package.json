@@ -1,22 +1,26 @@
 {
-  "name": "generator-pymod",
+  "name": "generator-py-module",
   "version": "0.0.2",
   "description": "A generator for Yeoman to create Python module boilerplate",
   "keywords": [
     "yeoman-generator",
-    "python"
+    "yeoman",
+    "generator",
+    "python",
+    "module",
+    "basic"
   ],
-  "homepage": "https://github.com/craigbeck/generator-pymod",
-  "bugs": "https://github.com/craigbeck/generator-pymod/issues",
+  "homepage": "https://github.com/Streamlyne/generator-py-module",
+  "bugs": "https://github.com/Streamlyne/generator-py-module/issues",
   "author": {
-    "name": "Craig Beck",
-    "email": "luckybonza@gmail.com",
-    "url": "https://github.com/craigbeck"
+    "name": "Dawson Reid",
+    "email": "dawson@streamlyne.co",
+    "url": "https://github.com/Streamlyne"
   },
   "main": "app/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/craigbeck/generator-pymod.git"
+    "url": "git://github.com/Streamlyne/generator-py-module.git"
   },
   "scripts": {
     "test": "mocha"
