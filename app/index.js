@@ -4,7 +4,7 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 
 
-var PymodGenerator = module.exports = function PymodGenerator(args, options, config) {
+var PyModuleGenerator = module.exports = function PyModuleGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
 
   this.argument('appname', { type: String, required: false });
@@ -19,39 +19,63 @@ var PymodGenerator = module.exports = function PymodGenerator(args, options, con
   }
 };
 
-util.inherits(PymodGenerator, yeoman.generators.Base);
+util.inherits(PyModuleGenerator, yeoman.generators.Base);
 
-PymodGenerator.prototype.askFor = function askFor() {
-  var cb = this.async();
+PyModuleGenerator.prototype.askFor = function askFor() {
+    var cb = this.async();
 
-  // have Yeoman greet the user.
-  console.log(this.yeoman);
+    // have Yeoman greet the user.
+    console.log(this.yeoman);
 
-  var prompts = [{
-    name: 'moduleName',
-    message: 'module name?',
-    default: this.env.options.appPath
-  }, {
-    name: 'description',
-    message: 'description for this module?'
-  }];
+    var prompts = [
+        {
+            name: 'moduleName',
+            message: 'module name : ',
+            default: this.env.options.appPath
+        }, {
+            name: 'description',
+            message: 'module description : '
+        }, {
+            type: 'confirm',
+            name: 'createREADME',
+            message: 'Create a basic README.md?',
+            default: true
+        }, {
+            type: 'confirm',
+            name: 'createLICENSE',
+            message: 'Create a basic LICENSE.txt?',
+            default: true
+        }
+    ];
 
-  this.prompt(prompts, function (props) {
-    this.appPath = props.moduleName;
-    this.moduleName = props.moduleName;
-    this.description = props.description;
-    cb();
-  }.bind(this));
+    this.prompt(prompts, function (props) {
+        
+        // bind our prompt results to the generator
+        this.moduleName = props.moduleName;
+        this.description = props.description;
+        this.createREADME = props.createREADME;
+        this.createLICENSE = props.createLICENSE;
+        
+        cb();
+    }.bind(this));
 };
 
-PymodGenerator.prototype.app = function app() {
-  this.template('_setup.py', 'setup.py');
-  this.template('_README.md', 'README.md');
-  this.mkdir(this.appPath)
-  this.write(path.join(this.appPath, '__init__.py'), '');
-  this.copy('main.py', path.join(this.appPath, '__main__.py'));
+PyModuleGenerator.prototype.app = function app() {
+  
+    this.template('_setup.py', 'setup.py');
+
+    if (this.createREADME) {
+        this.template('_README.md', 'README.md');
+    }
+    if (this.createLICENSE) {
+        this.write('LICENSE.txt', '');
+    }
+
+    this.mkdir(this.appPath)
+    this.write(path.join(this.modulePath, '__init__.py'), '');
+    this.copy('main.py', path.join(this.appPath, '__main__.py'));
 };
 
-PymodGenerator.prototype.projectfiles = function projectfiles() {
+PyModuleGenerator.prototype.projectfiles = function projectfiles() {
   this.copy('editorconfig', '.editorconfig');
 };
