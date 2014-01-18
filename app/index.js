@@ -26,13 +26,16 @@ PyModuleGenerator.prototype.askFor = function askFor() {
 
     // have Yeoman greet the user.
     console.log(this.yeoman);
+    console.log('Welcome to the Python Module Generator');
 
     var prompts = [
         {
+            type: 'input',
             name: 'moduleName',
             message: 'module name : ',
             default: this.env.options.appPath
         }, {
+            type: 'input',
             name: 'description',
             message: 'module description : '
         }, {
@@ -45,6 +48,11 @@ PyModuleGenerator.prototype.askFor = function askFor() {
             name: 'createLICENSE',
             message: 'Create a basic LICENSE.txt?',
             default: true
+        }, {
+            type: 'confirm',
+            name: 'generateTox',
+            message: 'Create a tox.ini file?',
+            default: true
         }
     ];
 
@@ -55,10 +63,18 @@ PyModuleGenerator.prototype.askFor = function askFor() {
         this.description = props.description;
         this.createREADME = props.createREADME;
         this.createLICENSE = props.createLICENSE;
+        this.generateTox = props.generateTox;
+
         
+        if (this.generateTox) {
+            console.log('generateTox : ' + this.generateTox);
+            this.invoke('py-tox', {options: { nested: true, appname: this.appname});
+        }
+
         cb();
     }.bind(this));
 };
+
 
 PyModuleGenerator.prototype.app = function app() {
   
@@ -71,11 +87,11 @@ PyModuleGenerator.prototype.app = function app() {
         this.write('LICENSE.txt', '');
     }
 
-    this.mkdir(this.appPath)
-    this.write(path.join(this.modulePath, '__init__.py'), '');
-    this.copy('main.py', path.join(this.appPath, '__main__.py'));
+    this.mkdir(this.moduleName)
+    this.write(path.join(this.moduleName, '__init__.py'), '');
+    this.copy('main.py', path.join(this.moduleName, '__main__.py'));
 };
 
 PyModuleGenerator.prototype.projectfiles = function projectfiles() {
-  this.copy('editorconfig', '.editorconfig');
+
 };

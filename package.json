@@ -1,6 +1,6 @@
 {
   "name": "generator-py-module",
-  "version": "0.0.2",
+  "version": "0.1.3",
   "description": "A generator for Yeoman to create Python module boilerplate",
   "keywords": [
     "yeoman-generator",
